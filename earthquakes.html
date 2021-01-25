@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
  <!-- set the charset -->
- <meta charset="utf-8">
- <!-- set make the map responsive -->
+ <meta charset="utf-8"> <!-- Sonderzeichen einfügen -->
+ <!-- set make the map responsive --> <!-- home page an Bildschirm anpassen -->
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
  <meta name="mobile-web-app-capable" content="yes">
  <meta name="apple-mobile-web-app-capable" content="yes">
   <!-- set the title shown in the browser tab -->
  <title>Earthquake Map</title>
-  <!-- Links to the leaflet CSS and JS -->
+  <!-- Links to the leaflet CSS and JS --> <!-- Installation Leaflet -->
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
    crossorigin=""/>
@@ -18,17 +18,18 @@
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
   <!-- styles for elements html and body: fullscreen  -->
- <style>
+ <style> <!-- komplettes Browserfenster für Karte ausnutzen -->
   html, body {
  	 width: 100%;
      height: 100%;
 	 padding: 0;
 	 margin: 0;
   }
+  
  </style>	
 </head>
 <body>
- <!-- set the div element containing the map -->
+ <!-- set the div element containing the map --> 
  <div id="mapid" style="width: 100%; height: 100%; padding: 0; margin: 0;"></div>
 
 
@@ -42,6 +43,21 @@
   var osm_basemap = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
 	  attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(mymap);
+  
+  // basemap 2:
+  var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+	});
+  // basemap 3:
+ var Jawg_Matrix = L.tileLayer('https://{s}.tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+	attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	minZoom: 0,
+	maxZoom: 22,
+	subdomains: 'abcd',
+	accessToken: '<your accessToken>'
+	});
+
  </script>
 
 </body>
