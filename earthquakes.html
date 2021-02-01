@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
  <!-- set the charset -->
- <meta charset="utf-8"> <!-- Sonderzeichen einfügen -->
- <!-- set make the map responsive --> <!-- home page an Bildschirm anpassen -->
+ <meta charset="utf-8">
+ <!-- set make the map responsive -->
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
  <meta name="mobile-web-app-capable" content="yes">
  <meta name="apple-mobile-web-app-capable" content="yes">
   <!-- set the title shown in the browser tab -->
  <title>Earthquake Map</title>
-  <!-- Links to the leaflet CSS and JS --> <!-- Installation Leaflet -->
+  <!-- Links to the leaflet CSS and JS -->
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
    crossorigin=""/>
  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
+  <!-- External data  --> 
+ <script src="earthquake_points.js"></script>
   <!-- styles for elements html and body: fullscreen  -->
- <style> <!-- komplettes Browserfenster für Karte ausnutzen -->
+ <style>
   html, body {
  	 width: 100%;
      height: 100%;
@@ -34,7 +36,6 @@
 
 
  <script>
-
   // Create Leaflet map
   var mymap = L.map('mapid').setView([51.5, 11.5], 6);
 
@@ -49,15 +50,39 @@
 	maxZoom: 17,
 	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 	});
+	
   // basemap 3:
- var Jawg_Matrix = L.tileLayer('https://{s}.tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-	attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	minZoom: 0,
-	maxZoom: 22,
-	subdomains: 'abcd',
-	accessToken: '<your accessToken>'
-	});
+  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
 
+  // Basemap dictonary  
+  var basemaps = {
+	"Open Street Map": osm_basemap,
+	"Topographische Karte": OpenTopoMap,
+	"Oberflächenabbildung": Esri_WorldImagery
+	};
+
+  // Layer control
+  var legend = L.control.layers(basemaps, null, {collapsed: true, position: "bottomright"}).addTo(mymap);
+
+  // Scale
+  var scale = L.control.scale({maxWidth: 150, metric: true, imperial: true}).addTo(mymap);
+
+  // Add earthquake points
+  var orangeMarker = {
+   radius: 8,
+   fillColor: "#ff7800",
+   color: "#000",
+   weight: 1,
+   opacity: 1,
+   fillOpacity: 0.6
+   };
+  
+  var overlay_eq_points = L.geoJSON(eq_points, {
+   pointToLayer: function (feature, latlng) {
+   return L.circleMarker(latlng, orangeMarker);
+   }}).addTo(mymap);
  </script>
 
 </body>
